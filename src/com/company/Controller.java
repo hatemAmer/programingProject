@@ -62,35 +62,6 @@ public class Controller {
         for (ImageV imageV : imagesInBench)
             bench.getChildren().add(imageV.getvBox());
     }
-    
-     public void setTiers() {
-        tiers = new VBox();
-        ((VBox) tiers).setAlignment(Pos.BASELINE_LEFT);
-        tiers.getStyleClass().add("left");
-        tiers.setMinWidth(100);
-    }
-
-    public void setBench() throws FileNotFoundException {
-        bench = new Pane();
-        //bench.setAlignment(Pos.TOP_LEFT);
-        bench.getStyleClass().add("bottom");
-        bench.setMinHeight(80);
-        bench.setMaxHeight(80);
-        int player = 1, level = 1;
-        imagesInBench.add(new ImageV(images[0], "Att P" + player + " L" + level));
-        imagesInBench.get(0).setPosition(200, 5);
-        imagesInBench.add(new ImageV(images[1], "Att P" + player + " L" + level));
-        imagesInBench.get(1).setPosition(280, 5);
-
-        for (ImageV imageV : imagesInBench) {
-            imageV.addItemToContextMenu("Swap to");
-            imageV.setContextMenu();
-            //imageV.setDropListAction(0);
-        }
-
-        for (ImageV imageV : imagesInBench)
-            bench.getChildren().add(imageV.getvBox());
-    }
 
     public void setTemporalStore() throws FileNotFoundException {
         temporalStore = new Pane();

@@ -1,0 +1,65 @@
+*{
+-fx-box-sizing: border-box;
+}
+
+.layout{
+-fx-background-image : url("dm-game-overview-b(2).png");
+//-fx-background-size:1200 700;
+-fx-background-position :  bottom center;
+//-fx-background-repeat:no-repeat;
+}
+.layout1{
+-fx-background-image : url("startPage.jpg");
+-fx-background-size:700 400;
+-fx-background-position : center center;
+}
+.left{
+
+}
+.championLabel{
+-fx-color: #ffffff;
+}
+
+.buttonStart{
+-fx-background-color:#edcc74;
+-fx-padding:0;
+-fx-font-size:16;
+//-fx-background-color:none;
+-fx-color:#edcc74;
+-fx-border-radios:1;
+-fx-transition-duration: 10s;
+}
+
+.buttonStart:hover{
+-fx-color:blue;
+//-fx-font-size:17;
+-webkit-transition-duration: 0.4s;
+
+}
+
+.bottomContianer{
+-fx-background-image : url("dm-game-overview-b(2).png");
+-fx-background-position :  bottom center;
+}
+
+.battleField{
+//-fx-background-image : url("ground-grass-tile-44-3d-model-tga.jpg");
+-fx-background-repeat:no-repeat;
+-fx-background-size:1100 540;
+}
+
+.nameLabel{
+-fx-font-family:Georgia;
+-fx-font-size:15px;
+}
+
+.last{
+
+}
+
+.nextButton{
+-fx-color:#153042;
+}
+.nextButton:hover{
+-fx-color:#e7e7e7;
+}

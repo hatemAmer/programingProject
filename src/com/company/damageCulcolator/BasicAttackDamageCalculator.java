@@ -1,25 +1,21 @@
 package com.company.damageCulcolator;
 
 import com.company.champion.Champion;
-import com.company.game.Square;
-import com.company.move.Move;
+
+import java.util.Random;
 
 public class BasicAttackDamageCalculator extends DamageCalculator {
-    Square squareAttack;
-    int damage;
-
-    public void calculatorIntededDamage(Champion champion, Move move) {
-        this.damage = champion.new ChampionAttributes().getAttackDamage();
-
+    public BasicAttackDamageCalculator(DamageCalculator damageCalculator, Champion championSrc) {
+        super(damageCalculator,championSrc);
+        super.setAttackDamage(damageCalculator.getAttackDamage());
+        super.setHealthChange(damageCalculator.getHealthChange());
+        this.CalculateIntendedDamage();
     }
-
-    @Override
-    public void calculatorIntededDamage(Champion champion) {
-
-    }
-
-    @Override
-    protected void damageCalculator(DamageCalculator damage) {
-
+    public void CalculateIntendedDamage(){
+        boolean criticalStrikeChance = (new Random()).nextDouble() <= super.getChampionSrc().new ChampionAttributes().getCriticalStrikeChance();
+        double criticalStrikeDamage = super.getChampionSrc().new ChampionAttributes().getCriticalStrikeDamage();
+        if(criticalStrikeChance)
+            super.setAttackDamage((super.getAttackDamage()*criticalStrikeDamage));
+        //System.out.println("From Calc2 : " + super.getAttackDamage());
     }
 }

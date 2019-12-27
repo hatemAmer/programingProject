@@ -18,7 +18,7 @@ public enum ChampionClass {
     Void,
     Yordle,
     Assassin,
-    Blade_Master,
+    BladeMaster,
     Brawler,
     Elementalist,
     Gunslinger,

@@ -1,6 +1,7 @@
 package com.company.move;
 
 import com.company.champion.Champion;
+import com.company.game.Option;
 import com.company.game.Square;
 
 /**
@@ -20,7 +21,10 @@ public class WalkMove extends Move{
         Champion.ChampionAttributes CA = championSrc.new ChampionAttributes();
         int moSp = CA.getMovementSpeed();
         int distance = distination.getDistace(CA.getSquare());
-        if(distance <= moSp)
+        if(distance <= moSp && distination.getX()<= Option.getObject().getWidth() && distination.getX()>0 && distination.getY() <= Option.getObject().getHigth() && distination.getY()>0)
+        {
             CA.setSquare(distination);
+        }
     }
+
 }

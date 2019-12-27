@@ -1,31 +1,62 @@
 package com.company.store;
 
+
 import com.company.champion.Champion;
 import com.company.champion.ChampionClass;
+import com.company.game.Option;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class InGameStore {
-    private ArrayList<Champion> store;
-    private int numberOfCopies;
+public class InGameStore implements Serializable {
+    public ArrayList<Champion> store;
+    public static InGameStore refToStore;
 
-
-    public InGameStore(int num){
-        this.numberOfCopies = num;
+    private InGameStore() {
         store = new ArrayList<Champion>();
     }
 
+    InGameStore(ArrayList<Champion> champions) {
+        store = champions;
+    }
 
+    public static InGameStore getObject() throws IOException, ClassNotFoundException {
+        File file = new File("store.txt");
+        if (file.length() == 0) {
+            try {
+                if (InGameStore.refToStore == null) {
+                    InGameStore.refToStore = new InGameStore();
+                    refToStore.GenerateList();
+                }
+                FileOutputStream f = new FileOutputStream(file);
+                ObjectOutputStream o = new ObjectOutputStream(f);
+                // Write objects to file
+                o.writeObject(InGameStore.refToStore.store);
+                o.close();
+                f.close();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        } else {
+            FileInputStream fi = new FileInputStream(file);
+            ObjectInputStream oi = new ObjectInputStream(fi);
+            //refToStore.store=null;
+            InGameStore.refToStore = new InGameStore((ArrayList<Champion>) oi.readObject());
+            oi.close();
+            fi.close();
+        }
 
-    public void GenerateList() throws java.io.FileNotFoundException{
-        Scanner scanner = new Scanner(new File("D:\\IT_engnering\\java_project\\test2\\Appendix1.txt"));
-        Champion t= new Champion();
+        return InGameStore.refToStore;
+    }
+
+    public void GenerateList() throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File("Appendix1.txt"));
+        Champion t = new Champion();
         Champion.ChampionAttributes CA = t.new ChampionAttributes();
-        int count = 1;
-        // while(scanner.hasNextLine()){
-        while(scanner.hasNext()){
+        int count = 0;
+        //   while(scanner.hasNextLine()){
+        while (scanner.hasNext()) {
 
             String s = scanner.next(); // get the championSrc name
             CA.setName(s);
@@ -76,22 +107,22 @@ public class InGameStore {
             info = scanner.nextDouble();    //get Mana Cost
             CA.setManaCost(info);
 
-            for(int i=0;i<numberOfCopies;i++)
-                store.add(new Champion(CA.getGoldCost(),CA.getHealth(),CA.getVisonRange(),
-                        CA.getAttackRange(),CA.getAttackDamage(),CA.getMovementSpeed(),
-                        CA.getManaStart(),CA.getManaCost(),CA.getArmor(),CA.getMagicResist(),
-                        CA.getCriticalStrikeChance(),CA.getCriticalStrikeDamage(),CA.getName(),count,CA.getActiveClass1()
-                        ,CA.getActiveClass2(),CA.getActiveClass3()));
+            for (int i = 0; i < Option.getObject().getNumberOfCopiesInStore(); i++)
+                store.add(new Champion(CA.getGoldCost(), CA.getHealth(), CA.getVisonRange(),
+                        CA.getAttackRange(), CA.getAttackDamage(), CA.getMovementSpeed(),
+                        CA.getManaStart(), CA.getManaCost(), CA.getArmor(), CA.getMagicResist(),
+                        CA.getCriticalStrikeChance(), CA.getCriticalStrikeDamage(), CA.getName(), CA.getActiveClass1()
+                        , CA.getActiveClass2(), CA.getActiveClass3(), count));
             count++;
             //System.out.println(CA.getName());
         }
-        scanner.nextLine();
-        //}
+
+        // }
 
     }
 
-    private ChampionClass fun1(String s){
-        switch(s){
+    private ChampionClass fun1(String s) {
+        switch (s) {
             case "Demon":
                 return ChampionClass.Demon;
             case "Dragons":
@@ -114,8 +145,8 @@ public class InGameStore {
                 return ChampionClass.Yordle;
             case "Assassin":
                 return ChampionClass.Assassin;
-            case "Blade_Master":
-                return ChampionClass.Blade_Master;
+            case "BladeMaster":
+                return ChampionClass.BladeMaster;
             case "Brawler":
                 return ChampionClass.Brawler;
             case "Elementalist":
@@ -136,12 +167,8 @@ public class InGameStore {
     }
 
 
-    public ArrayList<Champion> getStore() throws java.io.FileNotFoundException{
+    public ArrayList<Champion> getStore() throws FileNotFoundException {
         return this.store;
     }
-
-    public void setNumberOfCopies(int num){this.numberOfCopies = num;}
-
-    public int getNumberOfCopies(){return this.numberOfCopies;}
 
 }

@@ -3,9 +3,10 @@ package com.company.game;
 
 import com.company.champion.Champion;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Arena {
+public class Arena  implements Serializable {
     private ArrayList<Champion> championsInArena = new ArrayList<Champion>();
 
     private ArrayList<Square> squares = new ArrayList<Square>();
@@ -81,7 +82,7 @@ public class Arena {
                 count++;
             if (CA1.getPlayer() == player)
                 count++;
-            if (championsInArena.get(i).getLevel() == level)
+            if (CA1.getLevel() == level)
                 if (count == 4)
                     return championsInArena.get(i);
         }

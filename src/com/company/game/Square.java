@@ -1,6 +1,8 @@
 package com.company.game;
 
-public class Square {
+import java.io.Serializable;
+
+public class Square implements Serializable {
     private int x, y;
 
     public Square() {
@@ -31,6 +33,10 @@ public class Square {
 
     public int getDistace(Square s) {
         return (int) Math.sqrt((double) ((x - s.getX()) * (x - s.getX()) + (y - s.getY()) * (y - s.getY())));
+    }
+
+    public String toString() {
+        return new String("(" + this.x + "," + this.y + ")");
     }
 
 }

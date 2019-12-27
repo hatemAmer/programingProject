@@ -1,6 +1,9 @@
 package com.company.move;
 
 import com.company.champion.Champion;
+import com.company.damageCulcolator.BasicAttackDamageCalculator;
+import com.company.damageCulcolator.BasicAttackDodgeCalculator;
+import com.company.damageCulcolator.DamageCalculator;
 
 /**
  * Write a description of BasicAttackMove here.
@@ -8,20 +11,29 @@ import com.company.champion.Champion;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class BasicAttackMove extends Move{
-    private Champion target;
+public class BasicAttackMove extends Move {
+    private Champion championTarget;
 
     private BasicAttackMove(){}
 
-    public BasicAttackMove(Champion champion,Champion target){
-        super(champion);
-        this.target = target;
+    public BasicAttackMove(Champion championSrc, Champion championTarget){
+        this.championSrc = championSrc;
+        this.championTarget = championTarget;
     }
 
     public void PerformMove(){
-        Champion.ChampionAttributes CA1= championSrc.new ChampionAttributes();
-        Champion.ChampionAttributes CA2 = target.new ChampionAttributes();
-        CA2.setHealth(CA2.getHealth() - CA1.getAttackDamage());
+        this.championSrc.GetIntendedDamage();
+        DamageCalculator dm = new BasicAttackDamageCalculator(this.championSrc.getCurrentDamageCalculator(),this.championSrc);
+        Champion.ChampionAttributes CASrc = this.championSrc.new ChampionAttributes();
+        Champion.ChampionAttributes CATarget = this.championTarget.new ChampionAttributes();
+        if(CASrc.getSquare().getDistace(CATarget.getSquare())<=CASrc.getAttackRange()){
+            dm = new BasicAttackDodgeCalculator(this.championSrc.getCurrentDamageCalculator(),this.championTarget);
+            //dm.CalculateIntendedDamage();
+            this.championTarget.setCurrentDamageCalculator(dm);
+            this.championTarget.AcceptDamage();
+            CASrc.setManaStart(CASrc.getManaStart()+1);
+        }
+
     }
 
 }

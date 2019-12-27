@@ -1,39 +1,48 @@
 package com.company.champion;
 /**
- * Write a description of Champion here.
+ * Write a description of com.company.Champion.Champion here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
 
 import com.company.damageCulcolator.DamageCalculator;
+import com.company.move.Move;
+import com.company.game.Square;
+import com.company.champion.ChampionClass;
+import com.company.damageCulcolator.DamageCalculator;
 import com.company.game.Square;
 import com.company.move.Move;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.io.Serializable;
 
-public class Champion {
-    private ArrayList<Move> moves;
+public class Champion implements Serializable {
+    private Move moves;
     private ChampionClass ActiveClasses[] = new ChampionClass[3];
-    private ArrayList<DamageCalculator> currentDamageCalculator;
+    private DamageCalculator currentDamageCalculator;
     private int player;// 0 1 2 3 4 5 6 7 8
     private Square squar;
-    private int GoldCost, Health, VisonRange,                        //
-            AttackRange, AttackDamage, MovementSpeed,                    //
-            ManaStart;                                        //
-    private double Armor, MagicResist, CriticalStrikeChance,         //   atributes
-            CriticalStrikeDamage, ManaCost;                                  //
+    private int GoldCost;
+    private int Health;
+    private int MaxHealth;
+    private int VisonRange;
+    private int AttackRange;
+    private int AttackDamage;
+    private int MovementSpeed;
+    private int ManaStart;
+    private int championNumber;
+    private double Armor, MagicResist, CriticalStrikeChance,
+            CriticalStrikeDamage, ManaCost;
     private int level;//0 1 2
-    private int ability;//1 -> 48
+    private int stuns;
     private String Name;
 
 
     public Champion() {
         this.squar = new Square(1, 1);
-        this.squar.setX(1);
-        this.squar.setY(1);
-        this.level = 0;
+        this.squar.setX(-1);
+        this.squar.setY(-1);
+        this.level = 1;
         this.player = 0;
     }
 
@@ -41,11 +50,12 @@ public class Champion {
             , int AttackRange, int AttackDamage, int MovementSpeed,
                     int ManaStart, double ManaCost, double Armor,
                     double MagicResist, double CriticalStrikeChance,
-                    double CriticalStrikeDamage, String name, int ability
-            , ChampionClass x1, ChampionClass x2, ChampionClass x3) {
+                    double CriticalStrikeDamage, String name
+            , ChampionClass x1, ChampionClass x2, ChampionClass x3,int id) {
         this();
         this.GoldCost = GoldCost;
         this.Health = Health;
+        this.MaxHealth = Health;
         this.Armor = Armor;
         this.MagicResist = MagicResist;
         this.VisonRange = VisonRange;
@@ -58,10 +68,10 @@ public class Champion {
         this.ManaCost = ManaCost;
         this.ManaStart = ManaStart;
         this.Name = name;
-        this.ability = ability;
         this.ActiveClasses[0] = x1;
         this.ActiveClasses[1] = x2;
         this.ActiveClasses[2] = x3;
+        this.championNumber = id;
     }
 
 
@@ -136,6 +146,7 @@ public class Champion {
 
         public void setManaStart(int ManaStart) {
             Champion.this.ManaStart = ManaStart;
+            Champion.this.ManaStart = Math.max(1,Champion.this.ManaStart);
         }
 
         public double getManaCost() {
@@ -151,7 +162,7 @@ public class Champion {
         }
 
         public void setArmor(double Armor) {
-            Champion.this.Armor = Armor;
+            Champion.this.Armor = Math.max(0,Armor);
         }
 
         public double getMagicResist() {
@@ -162,7 +173,7 @@ public class Champion {
             Champion.this.MagicResist = MagicResist;
         }
 
-        public double getCriticalStrikeChance() {//return (new Random()).nextDouble() <= Champion.this.CriticalStrikeChance;
+        public double getCriticalStrikeChance() {
             return Champion.this.CriticalStrikeChance;
         }
 
@@ -176,14 +187,6 @@ public class Champion {
 
         public void setCriticalStrikeDamage(double CriticalStrikeDamage) {
             Champion.this.CriticalStrikeDamage = CriticalStrikeDamage;
-        }
-
-        public void setAbility(int ability) {
-            Champion.this.ability = ability;
-        }
-
-        public int getAbility() {
-            return Champion.this.ability;
         }
 
         public String getName() {
@@ -233,25 +236,64 @@ public class Champion {
         public int getPlayer() {
             return Champion.this.player;
         }
+
+        public Move getMoves() {
+            return moves;
+        }
+
+        public void setMoves(Move moves) {
+            Champion.this.moves = moves;
+        }
+
+        public int getChampionNumber() {
+            return championNumber;
+        }
+
+        public void setChampionNumber(int championNumber) {
+            Champion.this.championNumber = championNumber;
+        }
+
+        public int getLevel() {
+            return Champion.this.level;
+        }
+
+        public int getStuns() {
+            return stuns;
+        }
+
+        public void setStuns(int stuns) {
+            Champion.this.stuns += stuns;
+        }
+
+        public int getMaxHealth() {
+            return MaxHealth;
+        }
+
+    }
+
+    public void AcceptDamage(){
+        this.new ChampionAttributes().setHealth(this.Health-(int)this.currentDamageCalculator.getHealthChange());
+    }
+
+    public void GetIntendedDamage(){
+        this.currentDamageCalculator = new DamageCalculator(this);
+
     }
 
 
-    public int getLevel() {
-        return this.level;
+    public DamageCalculator getCurrentDamageCalculator() {
+        return currentDamageCalculator;
     }
 
-    public void AcceptDamage() {
+    public void setCurrentDamageCalculator(DamageCalculator currentDamageCalculator) {
+        this.currentDamageCalculator = currentDamageCalculator;
     }
 
-    public void GetIntendedDamage() {
-    }
+    public String toString(){
+        return new String("Name:"+this.Name + "  Armor:" + this.Armor + "  AttackDamage:" + this.AttackDamage + " AttackRange:" + this.AttackRange + " GoldCost" +this.GoldCost
+                + " Player:" + this.player + " position:" + this.squar + " Health:" +this.Health + " VisionRange:" + this.VisonRange
+                +" (" + ActiveClasses[0] + "." + ActiveClasses[1] + "." + ActiveClasses[2] + ")" + " level:" + this.level+" Mana:"+this.ManaStart +" ABCost:" + this.ManaCost
+        + "Movment SP:"+this.MovementSpeed);
 
-    public int getAbility() {
-        return Champion.this.ability;
-    }
-
-    public void print() {
-        System.out.println(this.Name + "  " + this.ability + "  ");
     }
 }
-

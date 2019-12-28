@@ -17,7 +17,7 @@ import java.util.Scanner;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class ConsolePlayer extends Player {
+public class ConsolePlayer extends Player{
 
     public void printPlayerInfo(){
         System.out.println("coins:" + this.coins);
@@ -125,6 +125,8 @@ public class ConsolePlayer extends Player {
 
 
         while (!c.equals("0")){
+            if(Thread.interrupted())
+                return;
             System.out.println("1 : To Buy A Champion");
             System.out.println("2 : To Sell A Champion");
             System.out.println("3 : To Select A Champion From Arena");
@@ -213,6 +215,7 @@ public class ConsolePlayer extends Player {
         System.out.println("*************************************************************************************");
     }
 
+
     @Override
     public void start(ArrayList<Champion> arena, ArrayList<Champion> temp){
        // printArena();
@@ -244,9 +247,10 @@ public class ConsolePlayer extends Player {
             System.out.println();
         }
     }
-    private void printArray(ArrayList<Champion>champions){
-        for(int i=0;i<champions.size();i++){
-            System.out.println(i + " : "+champions.get(i));
+    private void printArray(ArrayList<Champion>champions) {
+        for (int i = 0; i < champions.size(); i++) {
+            System.out.println(i + " : " + champions.get(i));
         }
     }
+
 }

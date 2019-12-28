@@ -32,6 +32,8 @@ public class AutoPlayer extends Player{
        // System.out.println(temp);
         if(temp == null)return;
         for(int i=0;i<temp.size();i++){
+            if(Thread.interrupted())
+                return;
             if(isValidBuyMove() && this.coins>=temp.get(i).new ChampionAttributes().getGoldCost() && counter < Option.getObject().getLimitOfBuyMovePerRound() && this.championInBench < this.armySizeInBench)
             {
                 counter++;
@@ -53,6 +55,8 @@ public class AutoPlayer extends Player{
         int counter =0 ;
         Random random = new Random();
         for(int i=0;i<this.currentChampionInBench.size();i++){
+            if(Thread.interrupted())
+                return;
             Champion champion = currentChampionInBench.get(i);
             if(counter < Option.getObject().getLimtOfSwaps() && this.championInArena < this.armySizeInArena){
                 int x = random.nextInt(Option.getObject().getWidth())+1;
@@ -70,8 +74,10 @@ public class AutoPlayer extends Player{
     public void putOrder(ArrayList<Champion> arena) throws FileNotFoundException {
         Random random = new Random();
         for(int i=0;i<currentChampionInArena.size();i++){
+            if(Thread.interrupted())
+                return;
             ArrayList<Champion> vis = this.getVision(currentChampionInArena.get(i),arena);
-            System.out.println(currentChampionInArena.get(i));
+            //System.out.println(currentChampionInArena.get(i));
             Champion.ChampionAttributes CA = currentChampionInArena.get(i).new ChampionAttributes();
             if(CA.getManaStart() >= CA.getManaCost() && level && vis.size()!=0){
                 CA.setMoves(new MoveFactory().MakeAbilityMove(currentChampionInArena.get(i),arena));
@@ -140,13 +146,13 @@ public class AutoPlayer extends Player{
 
     @Override
     public void start(ArrayList<Champion> arena, ArrayList<Champion> temp) throws Exception {
-        printPlayerInfo();
+       // printPlayerInfo();
         if(temp!=null)
             this.buildTempStore(temp);
         insertToArena(arena);
        // printChampionInArena();
         putOrder(arena);
-        Thread.sleep(100);
+        //Thread.sleep(100);
     }
 
 }

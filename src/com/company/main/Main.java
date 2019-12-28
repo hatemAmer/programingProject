@@ -5,7 +5,7 @@ import com.company.setting.OptionConsole;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import com.company.game.*;
 import java.util.Scanner;
 
 public class Main extends Application {
@@ -20,38 +20,38 @@ public class Main extends Application {
 
     public static void main(String[] args) throws Exception {
 
-//        Option option = Option.getObject();
-//        option.setCoinPerRound(40);
-//        option.setNumberOfChampionInTemp(5);
-//        option.setNumberOfCopiesInStore(10);
-//        option.setNumberOfPlayers(0);
-//        option.setNumberOfBots(8);
-//        option.setNumberOfRound(800000);
-//           option.AddNewActiveClass("Demon");
-//          option.AddNewActiveClass("Imperial");
-//          option.AddNewActiveClass("Dragons");
-//          option.AddNewActiveClass("Glacial");
-//          option.AddNewActiveClass("Noble");
-//          option.AddNewActiveClass("Noble");
-//          option.AddNewActiveClass("Pirate");
-//          option.AddNewActiveClass("Wild");
-//          option.AddNewActiveClass("Yordle");
-//          option.AddNewActiveClass("Assassin");
-//          option.AddNewActiveClass("BladeMaster");
-//          option.AddNewActiveClass("Brawler");
-//          option.AddNewActiveClass("Elementalist");
-//          option.AddNewActiveClass("Gunslinger");
-//          option.AddNewActiveClass("Knight");
-//          option.AddNewActiveClass("Ranger");
-//          option.AddNewActiveClass("Shapeshifter");
-//          option.AddNewActiveClass("Sorcerer");
-//        option.setHigth(5);
-//        option.setWidth(5);
-//        option.setLimtOfSwaps(3);
-//        option.setLimitOfBuyMovePerRound(5);
-//        option.setLimtOfChampionInArena(9);
-//        option.setLimtOfChampionInBench(8);
-//        option.setHardLevel(true);
+        Option option = Option.getObject();
+        option.setCoinPerRound(40);
+        option.setNumberOfChampionInTemp(5);
+        option.setNumberOfCopiesInStore(10);
+        option.setNumberOfPlayers(0);
+        option.setNumberOfBots(2);
+        option.setNumberOfRound(800000);
+           option.AddNewActiveClass("Demon");
+          option.AddNewActiveClass("Imperial");
+          option.AddNewActiveClass("Dragons");
+          option.AddNewActiveClass("Glacial");
+          option.AddNewActiveClass("Noble");
+          option.AddNewActiveClass("Noble");
+          option.AddNewActiveClass("Pirate");
+          option.AddNewActiveClass("Wild");
+          option.AddNewActiveClass("Yordle");
+          option.AddNewActiveClass("Assassin");
+          option.AddNewActiveClass("BladeMaster");
+          option.AddNewActiveClass("Brawler");
+          option.AddNewActiveClass("Elementalist");
+          option.AddNewActiveClass("Gunslinger");
+          option.AddNewActiveClass("Knight");
+          option.AddNewActiveClass("Ranger");
+          option.AddNewActiveClass("Shapeshifter");
+          option.AddNewActiveClass("Sorcerer");
+        option.setHigth(5);
+        option.setWidth(5);
+        option.setLimtOfSwaps(3);
+        option.setLimitOfBuyMovePerRound(5);
+        option.setLimtOfChampionInArena(9);
+        option.setLimtOfChampionInBench(8);
+        option.setHardLevel(false);
 
         String ch = "1";
         while (!ch.equals("0")) {

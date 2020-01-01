@@ -218,12 +218,14 @@ public class ConsolePlayer extends Player{
 
     @Override
     public void start(ArrayList<Champion> arena, ArrayList<Champion> temp){
+        removeDeadChampion(arena);
        // printArena();
         printPlayerInfo();
         printChampionInArena();
         printChampionInBench();
         buildTempStore(temp);
         GetOrder(arena,temp);
+        notifyAll();
     }
 
 

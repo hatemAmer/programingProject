@@ -74,35 +74,35 @@ public class AutoPlayer extends Player{
     public void putOrder(ArrayList<Champion> arena) throws FileNotFoundException {
         Random random = new Random();
         for(int i=0;i<currentChampionInArena.size();i++){
-            if(Thread.interrupted())
-                return;
-            ArrayList<Champion> vis = this.getVision(currentChampionInArena.get(i),arena);
-            //System.out.println(currentChampionInArena.get(i));
-            Champion.ChampionAttributes CA = currentChampionInArena.get(i).new ChampionAttributes();
-            if(CA.getManaStart() >= CA.getManaCost() && level && vis.size()!=0){
-                CA.setMoves(new MoveFactory().MakeAbilityMove(currentChampionInArena.get(i),arena));
-                CA.setManaStart(CA.getManaStart()-(int)CA.getManaCost());
+            for(int j =0 ; j < 3 ; j++) {
+                if (Thread.interrupted())
+                    return;
+                ArrayList<Champion> vis = this.getVision(currentChampionInArena.get(i), arena);
+                //System.out.println(currentChampionInArena.get(i));
+                Champion.ChampionAttributes CA = currentChampionInArena.get(i).new ChampionAttributes();
+                if (CA.getManaStart() >= CA.getManaCost() && level && vis.size() != 0) {
+                    CA.setMoves(new MoveFactory().MakeAbilityMove(currentChampionInArena.get(i), arena));
+                    CA.setManaStart(CA.getManaStart() - (int) CA.getManaCost());
 //                System.out.println(this.myNumber+":The bots use Ability");
-            }
-            else if(CA.getHealth()<CA.getMaxHealth()*0.2 && level){
-                new MoveFactory().MakeSellMove(currentChampionInArena.get(i));
-                this.removeFromChampionClass(currentChampionInArena.get(i));
-                currentChampionInArena.remove(i);
-                championInArena--;
+                } else if (CA.getHealth() < CA.getMaxHealth() * 0.2 && level) {
+                    new MoveFactory().MakeSellMove(currentChampionInArena.get(i));
+                    this.removeFromChampionClass(currentChampionInArena.get(i));
+                    currentChampionInArena.remove(i);
+                    championInArena--;
 //                System.out.println(this.myNumber+":The bots sell a champion");
-            }
-            else if(vis.size() != 0){
-                int t = random.nextInt(vis.size());
-                currentChampionInArena.get(i).new ChampionAttributes().setMoves(new BasicAttackMove(currentChampionInArena.get(i),vis.get(t)));
-                //System.out.println(vis.get(t));
-            }else{
-                Champion champion = currentChampionInArena.get(i);
-                CA = champion.new ChampionAttributes();
-                int dis = CA.getMovementSpeed();
-                int x=Math.min(Math.max(random.nextInt(2*dis) - dis + CA.getSquare().getX(),1),Option.getObject().getWidth());
-                int y=Math.min(Math.max(random.nextInt(2*dis) - dis + CA.getSquare().getY(),1),Option.getObject().getHigth());
-                //System.out.println(new Square(x,y));
-                CA.setMoves(new WalkMove(champion,new Square(x,y)));
+                } else if (vis.size() != 0) {
+                    int t = random.nextInt(vis.size());
+                    currentChampionInArena.get(i).new ChampionAttributes().setMoves(new BasicAttackMove(currentChampionInArena.get(i), vis.get(t)));
+                    //System.out.println(vis.get(t));
+                } else {
+                    Champion champion = currentChampionInArena.get(i);
+                    CA = champion.new ChampionAttributes();
+                    int dis = CA.getMovementSpeed();
+                    int x = Math.min(Math.max(random.nextInt(2 * dis) - dis + CA.getSquare().getX(), 1), Option.getObject().getWidth());
+                    int y = Math.min(Math.max(random.nextInt(2 * dis) - dis + CA.getSquare().getY(), 1), Option.getObject().getHigth());
+                    // System.out.println(new Square(x,y));
+                    CA.setMoves(new WalkMove(champion, new Square(x, y)));
+                }
             }
         }
     }
@@ -146,12 +146,19 @@ public class AutoPlayer extends Player{
 
     @Override
     public void start(ArrayList<Champion> arena, ArrayList<Champion> temp) throws Exception {
-       // printPlayerInfo();
+        removeDeadChampion(arena);
+        System.out.println(arena.size());
+        printPlayerInfo();
         if(temp!=null)
             this.buildTempStore(temp);
         insertToArena(arena);
        // printChampionInArena();
         putOrder(arena);
+        for(int i=0;i<temp.size();i++){
+            Champion.ChampionAttributes CA = temp.get(i).new ChampionAttributes();
+            if(CA.getPlayer() == -1)
+                CA.setPlayer(0);
+        }
         //Thread.sleep(100);
     }
 

@@ -27,6 +27,7 @@ public class BasicAttackMove extends Move {
         Champion.ChampionAttributes CASrc = this.championSrc.new ChampionAttributes();
         Champion.ChampionAttributes CATarget = this.championTarget.new ChampionAttributes();
         if(CASrc.getSquare().getDistace(CATarget.getSquare())<=CASrc.getAttackRange()){
+            System.out.println(CASrc.getPlayer()+":"+CASrc.getName()+"+"+CASrc.getHealth() + "->" +CATarget.getPlayer()+":"+CATarget.getHealth());
             dm = new BasicAttackDodgeCalculator(this.championSrc.getCurrentDamageCalculator(),this.championTarget);
             //dm.CalculateIntendedDamage();
             this.championTarget.setCurrentDamageCalculator(dm);

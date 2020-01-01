@@ -310,4 +310,18 @@ public abstract class Player implements Serializable {
         return temp;
     }
 
+    public void removeDeadChampion(ArrayList<Champion> arena){
+        for(int i =0 ;i<this.currentChampionInArena.size();i++){
+            Champion.ChampionAttributes CA = this.currentChampionInArena.get(i).new ChampionAttributes();
+            if(CA.getHealth()<=0){
+                arena.remove(currentChampionInArena.get(i));
+                currentChampionInArena.remove(i);
+                championInArena--;
+
+                armySize--;
+                i--;
+            }
+        }
+    }
+
 }

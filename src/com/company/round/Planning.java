@@ -65,7 +65,7 @@ public class Planning extends Round {
             }
         }
         System.out.println("Round Number:"+roundNumber);
-       // Thread.sleep(300);
+        Thread.sleep(300);
         for(int i =0 ;i<8;i++){
             if(arrThread[i] != null)
                 arrThread[i].interrupt();

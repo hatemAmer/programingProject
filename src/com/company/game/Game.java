@@ -972,6 +972,13 @@ public class Game {
                         System.out.println(victoryPlayer.getCurrentChampionInArena().get(j));
                     break;
                 }
+//                if(counter == 0){
+//                    System.out.println();
+//                    System.out.println("|--------------------------|");
+//                    System.out.println("|   No  Player victory     |");
+//                    System.out.println("|--------------------------|");
+//                    break;
+//                }
             }
         }
 

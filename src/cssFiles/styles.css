@@ -3,8 +3,8 @@
 }
 
 .layout{
--fx-background-image : url("dm-game-overview-b(2).png");
-//-fx-background-size:1200 700;
+-fx-background-image : url("dm-game-overview-.png");
+-fx-background-size:1200 700;
 -fx-background-position :  bottom center;
 //-fx-background-repeat:no-repeat;
 }
@@ -38,7 +38,7 @@
 }
 
 .bottomContianer{
--fx-background-image : url("dm-game-overview-b(2).png");
+//-fx-background-image : url("dm-game-overview-b(2).png");
 -fx-background-position :  bottom center;
 }
 

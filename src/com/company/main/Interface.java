@@ -81,7 +81,7 @@ public class Interface {
 
             File file1 = new File("player1.txt");
             File file2 = new File("store.txt");
-            File file3 = new File("autoPlayer1.txt");
+            //File file3 = new File("autoPlayer1.txt");
             PrintWriter writer = null;
             try {
                 writer = new PrintWriter(file1);
@@ -92,9 +92,15 @@ public class Interface {
                 writer.print("");
                 writer.close();
 
-                writer = new PrintWriter(file3);
-                writer.print("");
-                writer.close();
+                String autoPlayerfile = "autoPlayer";
+                int j = 1;
+                for (int i = 0; i < Option.getObject().getNumberOfBots(); i++) {
+                    File file = new File(autoPlayerfile + j + ".txt");
+                    j++;
+                    writer = new PrintWriter(file);
+                    writer.print("");
+                    writer.close();
+                }
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             }

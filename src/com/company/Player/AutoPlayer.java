@@ -177,7 +177,7 @@ public class AutoPlayer extends Player{
     @Override
     public void start(ArrayList<Champion> arena, ArrayList<Champion> temp) throws Exception {
         removeDeadChampion(arena);
-       // System.out.println(arena.size());
+        System.out.println(arena.size());
         printPlayerInfo();
         if(temp!=null)
             this.buildTempStore(temp);

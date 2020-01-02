@@ -9,7 +9,6 @@ package com.company.Player;
 import com.company.champion.Champion;
 import com.company.champion.ChampionClass;
 import com.company.game.Option;
-import com.company.game.SquareType;
 import com.company.move.Move;
 import com.company.move.MoveFactory;
 
@@ -304,27 +303,11 @@ public abstract class Player implements Serializable {
             Champion.ChampionAttributes CA1 = c.new ChampionAttributes();
             Champion.ChampionAttributes CA2 = champion.new ChampionAttributes();
             int dis = CA1.getSquare().getDistace(CA2.getSquare());
-            if(CA2.getSquare().getType() == SquareType.Grass)
-                dis*=2;
             if(CA1.getPlayer() != CA2.getPlayer() && dis <=CA2.getVisonRange()){        //attack range
                 temp.add(c);
             }
         }
         return temp;
     }
-
-    public void removeDeadChampion(ArrayList<Champion> arena){
-        for(int i =0 ;i<this.currentChampionInArena.size();i++){
-            Champion.ChampionAttributes CA = this.currentChampionInArena.get(i).new ChampionAttributes();
-            if(CA.getHealth()<=0){
-                arena.remove(currentChampionInArena.get(i));
-                currentChampionInArena.remove(i);
-                championInArena--;
-                armySize--;
-                i--;
-            }
-        }
-    }
-
 
 }

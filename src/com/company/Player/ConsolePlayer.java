@@ -205,6 +205,9 @@ public class ConsolePlayer extends Player{
                     {
                         System.out.println("not completed");
                         break;
+
+
+
                     }
                     this.currentChampionInArena.add(this.currentChampionInBench.get(cc));
                     arena.add(this.currentChampionInBench.get(cc));

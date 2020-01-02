@@ -21,11 +21,11 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
 
         Option option = Option.getObject();
-        option.setCoinPerRound(4);
+        option.setCoinPerRound(40);
         option.setNumberOfChampionInTemp(5);
         option.setNumberOfCopiesInStore(10);
-        option.setNumberOfPlayers(0);
-        option.setNumberOfBots(2);
+        option.setNumberOfPlayers(1);
+        option.setNumberOfBots(1);
         option.setNumberOfRound(8000000);
         option.AddNewActiveClass("Demon");
         option.AddNewActiveClass("Imperial");

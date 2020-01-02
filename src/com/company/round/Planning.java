@@ -3,6 +3,7 @@ package com.company.round;
 import com.company.champion.Champion;
 import com.company.Player.Player;
 import com.company.game.Option;
+import com.company.game.Square;
 import com.company.store.ChampionClassFilter;
 import com.company.store.StoreFilter;
 import com.company.store.TemporalStoreFilter;
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 public class Planning extends Round {
     private  static int roundNumber =0;
     private static ArrayList<Champion> arena;
+    private static Square map[][];
     private Planning(){}
-    public Planning(ArrayList<Champion> arena){
+    public Planning(ArrayList<Champion> arena,Square map[][]){
         this.arena = arena;
+        this.map = map;
     }
     @Override
     public void startAction(ArrayList<Player> pl) throws Exception {
@@ -35,7 +38,6 @@ public class Planning extends Round {
             {
                 int finalI = i;
                 arrThread[i] = new Thread(new Runnable() {
-
                     private ArrayList<Champion> arena = Planning.arena;
 
                     @Override
@@ -65,7 +67,7 @@ public class Planning extends Round {
             }
         }
         System.out.println("Round Number:"+roundNumber);
-        Thread.sleep(300);
+        Thread.sleep(30000);
         for(int i =0 ;i<8;i++){
             if(arrThread[i] != null)
                 arrThread[i].interrupt();

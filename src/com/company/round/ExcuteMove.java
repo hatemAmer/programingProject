@@ -2,6 +2,7 @@ package com.company.round;
 
 import com.company.champion.Champion;
 import com.company.Player.Player;
+import com.company.game.Square;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -9,7 +10,11 @@ import java.util.ArrayList;
 public class ExcuteMove extends Round {
     private ArrayList<Champion> arena;
     private ExcuteMove(){}
-    public ExcuteMove(ArrayList<Champion>arena){this.arena=arena;}
+    private Square map[][];
+    public ExcuteMove(ArrayList<Champion>arena,Square map[][]){
+        this.arena=arena;
+        this.map = map;
+    }
     @Override
     public void startAction(ArrayList<Player> pl) throws FileNotFoundException, InterruptedException {
         Thread arrThread[] = new Thread[8];

@@ -7,6 +7,7 @@ package com.company.champion;
  */
 
 import com.company.damageCulcolator.DamageCalculator;
+import com.company.game.SquareType;
 import com.company.move.Move;
 import com.company.game.Square;
 import com.company.champion.ChampionClass;
@@ -44,6 +45,7 @@ public class Champion implements Serializable {
         this.squar = new Square(1, 1);
         this.squar.setX(-1);
         this.squar.setY(-1);
+        this.squar.setType(SquareType.Standard);
         this.level = 1;
         this.player = 0;
     }

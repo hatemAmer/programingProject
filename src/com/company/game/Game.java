@@ -936,9 +936,9 @@ public class Game {
         public void generateList() {
             for (int i = 0; i < Option.getObject().getNumberOfRound(); i++) {
                 if (i % 2 == 0)
-                    rounds.add(new Planning(Game.this.arena.getChampionsInArena()));
+                    rounds.add(new Planning(Game.this.arena.getChampionsInArena(),Game.this.arena.getMap()));
                 else
-                    rounds.add(new ExcuteMove(Game.this.arena.getChampionsInArena()));
+                    rounds.add(new ExcuteMove(Game.this.arena.getChampionsInArena(),Game.this.arena.getMap()));
             }
         }
 

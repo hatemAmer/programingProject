@@ -1,10 +1,8 @@
 package com.company.Player;
 
 import com.company.champion.Champion;
-import com.company.game.Arena;
 import com.company.game.Option;
 import com.company.game.Square;
-import com.company.game.SquareType;
 import com.company.move.BasicAttackMove;
 import com.company.move.MoveFactory;
 import com.company.move.WalkMove;
@@ -15,8 +13,8 @@ import java.util.Random;
 
 /**
  * Write a description of AutoPlayer here.
- * 
- * @author (your name) 
+ *
+ * @author (your name)
  * @version (a version number or a date)
  */
 public class AutoPlayer extends Player{
@@ -31,18 +29,11 @@ public class AutoPlayer extends Player{
     @Override
     public void buildTempStore(ArrayList<Champion> temp) {
         int counter=0;
-       // System.out.println(temp);
+        // System.out.println(temp);
         if(temp == null)return;
         for(int i=0;i<temp.size();i++){
             if(Thread.interrupted())
-            {
-                for(int j =0 ;j<temp.size();j++){
-                    Champion.ChampionAttributes CA = temp.get(j).new ChampionAttributes();
-                    if(CA.getPlayer() == -1)
-                        CA.setPlayer(0);
-                }
                 return;
-            }
             if(isValidBuyMove() && this.coins>=temp.get(i).new ChampionAttributes().getGoldCost() && counter < Option.getObject().getLimitOfBuyMovePerRound() && this.championInBench < this.armySizeInBench)
             {
                 counter++;
@@ -60,29 +51,17 @@ public class AutoPlayer extends Player{
         }
     }
 
-    public void insertToArena(ArrayList<Champion> arena,ArrayList<Champion> temp){
+    public void insertToArena(ArrayList<Champion> arena){
         int counter =0 ;
         Random random = new Random();
         for(int i=0;i<this.currentChampionInBench.size();i++){
             if(Thread.interrupted())
-            {
-                for(int j =0 ;j<temp.size();j++){
-                    Champion.ChampionAttributes CA = temp.get(j).new ChampionAttributes();
-                    if(CA.getPlayer() == -1)
-                        CA.setPlayer(0);
-                }
                 return;
-            }
             Champion champion = currentChampionInBench.get(i);
             if(counter < Option.getObject().getLimtOfSwaps() && this.championInArena < this.armySizeInArena){
                 int x = random.nextInt(Option.getObject().getWidth())+1;
                 int y = random.nextInt(Option.getObject().getHigth())+1;
-                if(Arena.map[x-1][y-1].getType() == SquareType.Terrain)
-                {
-                    i--;
-                    continue;
-                }
-                champion.new ChampionAttributes().setSquare(Arena.map[x-1][y-1]);
+                champion.new ChampionAttributes().setSquare(new Square(x,y));
                 currentChampionInArena.add(champion);
                 this.championInArena++;
                 arena.add(champion);
@@ -92,19 +71,12 @@ public class AutoPlayer extends Player{
         }
     }
 
-    public void putOrder(ArrayList<Champion> arena,ArrayList<Champion> temp) throws FileNotFoundException {
+    public void putOrder(ArrayList<Champion> arena) throws FileNotFoundException {
         Random random = new Random();
         for(int i=0;i<currentChampionInArena.size();i++){
             for(int j =0 ; j < 3 ; j++) {
-                if(Thread.interrupted())
-                {
-                    for(int z =0 ;z<temp.size();z++){
-                        Champion.ChampionAttributes CA = temp.get(z).new ChampionAttributes();
-                        if(CA.getPlayer() == -1)
-                            CA.setPlayer(0);
-                    }
+                if (Thread.interrupted())
                     return;
-                }
                 ArrayList<Champion> vis = this.getVision(currentChampionInArena.get(i), arena);
                 //System.out.println(currentChampionInArena.get(i));
                 Champion.ChampionAttributes CA = currentChampionInArena.get(i).new ChampionAttributes();
@@ -165,8 +137,6 @@ public class AutoPlayer extends Player{
             Champion.ChampionAttributes CA1 = c.new ChampionAttributes();
             Champion.ChampionAttributes CA2 = champion.new ChampionAttributes();
             int dis = CA1.getSquare().getDistace(CA2.getSquare());
-            if(CA2.getSquare().getType() == SquareType.Grass)
-                dis*=2;
             if(CA1.getPlayer() != CA2.getPlayer() && dis <=CA2.getAttackRange()){
                 temp.add(c);
             }
@@ -181,9 +151,10 @@ public class AutoPlayer extends Player{
         printPlayerInfo();
         if(temp!=null)
             this.buildTempStore(temp);
-        insertToArena(arena,temp);
-       // printChampionInArena();
-        putOrder(arena,temp);
+        insertToArena(arena);
+        // printChampionInArena();
+        putOrder(arena);
+        if(temp!=null)
         for(int i=0;i<temp.size();i++){
             Champion.ChampionAttributes CA = temp.get(i).new ChampionAttributes();
             if(CA.getPlayer() == -1)

@@ -11,11 +11,37 @@ public class ExcuteMove extends Round {
     private ExcuteMove(){}
     public ExcuteMove(ArrayList<Champion>arena){this.arena=arena;}
     @Override
-    public void startAction(ArrayList<Player> pl) throws FileNotFoundException {
-        for(int i =0 ;i<pl.size();i++){
+    public void startAction(ArrayList<Player> pl) throws FileNotFoundException, InterruptedException {
+        Thread arrThread[] = new Thread[8];
+        for(int i =0 ;i<pl.size();i++) {
             ArrayList<Champion> ch = pl.get(i).getCurrentChampionInArena();
-            for(int j=0;j<ch.size();j++){
-                if(((ch.get(j).new ChampionAttributes()).getHealth() <= 0)){
+            int finalI = i;
+
+            arrThread[i] = new Thread(new Runnable() {
+                private ArrayList<Champion> arena ;
+
+                @Override
+                public void run() {
+                    for (int j = 0; j < ch.size(); j++) {
+
+                        if (ch.get(j).new ChampionAttributes().getStuns() > 0) {
+                            ch.get(j).new ChampionAttributes().setStuns(ch.get(j).new ChampionAttributes().getStuns() - 1);
+                            continue;
+                        }
+                        if (((ch.get(j).new ChampionAttributes()).getMoves()) != null) {
+                            int finalJ = j;
+                            Champion.ChampionAttributes CA = ch.get(finalJ).new ChampionAttributes();
+                            while (CA.getMoves().size() != 0) {
+                                CA.getMoves().get(0).PerformMove();
+                                CA.getMoves().remove(0);
+                            }
+                        }
+                    }
+                }
+            });
+            arrThread[i].start();
+            for (int j = 0; j < ch.size(); j++){
+                if (((ch.get(j).new ChampionAttributes()).getHealth() <= 0)) {
                     this.arena.remove(ch.get(j));
                     ch.remove(j);
                     j--;
@@ -23,16 +49,8 @@ public class ExcuteMove extends Round {
                     pl.get(i).setArmySize(-1);
                     continue;
                 }
-                if(ch.get(j).new ChampionAttributes().getStuns() > 0){
-                    ch.get(j).new ChampionAttributes().setStuns(ch.get(j).new ChampionAttributes().getStuns()-1);
-                    continue;
-                }
-                if(((ch.get(j).new ChampionAttributes()).getMoves()) != null)
-                {
-                    ((ch.get(j).new ChampionAttributes()).getMoves()).PerformMove();
-                    ch.get(j).new ChampionAttributes().setMoves(null);
-                }
             }
         }
+        Thread.sleep(500);
     }
 }

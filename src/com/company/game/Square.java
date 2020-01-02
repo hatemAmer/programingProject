@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 public class Square implements Serializable {
     private int x, y;
-
+    SquareType type;
     public Square() {
         x = -1;
         y = -1;
+        type = SquareType.Standard;
     }
 
     public Square(int x, int y) {
@@ -36,7 +37,14 @@ public class Square implements Serializable {
     }
 
     public String toString() {
-        return new String("(" + this.x + "," + this.y + ")");
+        return new String("(" + this.x + "," + this.y + ":" +this.type +")");
     }
 
+    public SquareType getType() {
+        return type;
+    }
+
+    public void setType(SquareType type) {
+        this.type = type;
+    }
 }

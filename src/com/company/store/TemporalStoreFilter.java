@@ -43,6 +43,7 @@ public class TemporalStoreFilter extends StoreFilter implements Serializable {
                     continue;
                 }
                 if (temp.indexOf(temp1.get(t)) == -1) {
+                    ca.setPlayer(-1);
                     temp.add(temp1.get(t));
                     x--;
                 }
@@ -53,6 +54,7 @@ public class TemporalStoreFilter extends StoreFilter implements Serializable {
             for (int i = 0; i < temp1.size(); i++) {
                 Champion.ChampionAttributes ca = temp1.get(i).new ChampionAttributes();
                 if (ca.getPlayer() == 0 && ca.getHealth() > 0 && temp1.get(i) != null) {
+                    ca.setPlayer(-1);
                     temp.add(temp1.get(i));
                 }
             }

@@ -5,11 +5,34 @@ import com.company.champion.Champion;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Arena  implements Serializable {
     private ArrayList<Champion> championsInArena = new ArrayList<Champion>();
+    public static final Square map[][] = new Square[Option.getObject().getHigth()][Option.getObject().getWidth()];
 
-    private ArrayList<Square> squares = new ArrayList<Square>();
+    public Arena(){
+        Random random = new Random();
+        int n = Option.getObject().getHigth();
+        int m = Option.getObject().getWidth();
+        for(int i=0;i<n;i++){
+            for(int j =0 ;j<m;j++){
+                map[i][j] = new Square(i+1,j+1);
+                int t = random.nextInt(4);
+                if(t == 1){
+                    map[i][j].setType(SquareType.Grass);
+                }
+                else if(t==2){
+                    map[i][j].setType(SquareType.Terrain);
+                }
+                else if(t==3){
+                    map[i][j].setType(SquareType.Water);
+                }
+                else
+                    map[i][j].setType(SquareType.Standard);
+            }
+        }
+    }
 
     public void GenerateList(ArrayList<Champion> champions) {
         int n = champions.size();
@@ -97,4 +120,7 @@ public class Arena  implements Serializable {
         return championsInArena.get(ind);
     }
 
+    public Square[][] getMap() {
+        return map;
+    }
 }

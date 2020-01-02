@@ -24,8 +24,8 @@ public class Main extends Application {
         option.setCoinPerRound(40);
         option.setNumberOfChampionInTemp(5);
         option.setNumberOfCopiesInStore(10);
-        option.setNumberOfPlayers(1);
-        option.setNumberOfBots(1);
+        option.setNumberOfPlayers(0);
+        option.setNumberOfBots(4);
         option.setNumberOfRound(8000000);
         option.AddNewActiveClass("Demon");
         option.AddNewActiveClass("Imperial");
@@ -45,8 +45,8 @@ public class Main extends Application {
         option.AddNewActiveClass("Ranger");
         option.AddNewActiveClass("Shapeshifter");
         option.AddNewActiveClass("Sorcerer");
-        option.setHigth(5);
-        option.setWidth(5);
+        option.setHigth(50);
+        option.setWidth(50);
         option.setLimtOfSwaps(3);
         option.setLimitOfBuyMovePerRound(5);
         option.setLimtOfChampionInArena(9);

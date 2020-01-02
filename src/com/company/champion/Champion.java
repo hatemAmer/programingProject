@@ -15,9 +15,11 @@ import com.company.game.Square;
 import com.company.move.Move;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Champion implements Serializable {
-    private Move moves;
+    private int numberOfMoves;
+    private ArrayList<Move> moves = new ArrayList<Move>();
     private ChampionClass ActiveClasses[] = new ChampionClass[3];
     private DamageCalculator currentDamageCalculator;
     private int player;// 0 1 2 3 4 5 6 7 8
@@ -72,6 +74,7 @@ public class Champion implements Serializable {
         this.ActiveClasses[1] = x2;
         this.ActiveClasses[2] = x3;
         this.championNumber = id;
+        this.numberOfMoves = 0;
     }
 
 
@@ -237,12 +240,15 @@ public class Champion implements Serializable {
             return Champion.this.player;
         }
 
-        public Move getMoves() {
+        public ArrayList<Move> getMoves() {
             return moves;
         }
 
         public void setMoves(Move moves) {
-            Champion.this.moves = moves;
+            if(Champion.this.moves.size() > 3){
+                Champion.this.moves.remove(0);
+            }
+            Champion.this.moves.add(moves);
         }
 
         public int getChampionNumber() {
@@ -269,6 +275,13 @@ public class Champion implements Serializable {
             return MaxHealth;
         }
 
+        public int getNumberOfMoves() {
+            return numberOfMoves;
+        }
+
+        public void setNumberOfMoves(int numberOfMoves) {
+            Champion.this.numberOfMoves = numberOfMoves;
+        }
     }
 
     public void AcceptDamage(){
@@ -293,7 +306,8 @@ public class Champion implements Serializable {
         return new String("Name:"+this.Name + "  Armor:" + this.Armor + "  AttackDamage:" + this.AttackDamage + " AttackRange:" + this.AttackRange + " GoldCost" +this.GoldCost
                 + " Player:" + this.player + " position:" + this.squar + " Health:" +this.Health + " VisionRange:" + this.VisonRange
                 +" (" + ActiveClasses[0] + "." + ActiveClasses[1] + "." + ActiveClasses[2] + ")" + " level:" + this.level+" Mana:"+this.ManaStart +" ABCost:" + this.ManaCost
-        + "Movment SP:"+this.MovementSpeed);
+                + "Movment SP:"+this.MovementSpeed);
 
     }
+
 }

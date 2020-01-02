@@ -1,6 +1,7 @@
 package com.company.main;
 
 import com.company.Player.Player;
+import com.company.game.Option;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -59,15 +60,20 @@ public class ConfirmBox {
             writer.print("");
             writer.close();
 
-            file = new File("autoPlayer1.txt");
-            writer = null;
-            try {
-                writer = new PrintWriter(file);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
+            String autoPlayerfile = "autoPlayer";
+            int j = 1;
+            for (int i = 0; i < Option.getObject().getNumberOfBots(); i++) {
+                file = new File(autoPlayerfile + j + ".txt");
+                j++;
+                writer = null;
+                try {
+                    writer = new PrintWriter(file);
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+                writer.print("");
+                writer.close();
             }
-            writer.print("");
-            writer.close();
         });
 
         HBox hBox = new HBox(20);

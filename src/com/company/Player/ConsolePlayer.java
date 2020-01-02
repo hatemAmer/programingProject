@@ -1,10 +1,8 @@
 package com.company.Player;
 
 import com.company.champion.Champion;
-import com.company.game.Arena;
 import com.company.game.Option;
 import com.company.game.Square;
-import com.company.game.SquareType;
 import com.company.move.BasicAttackMove;
 import com.company.move.MoveFactory;
 import com.company.move.WalkMove;
@@ -19,7 +17,7 @@ import java.util.Scanner;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class ConsolePlayer extends Player{
+public class ConsolePlayer extends Player {
 
     public void printPlayerInfo(){
         System.out.println("coins:" + this.coins);
@@ -127,15 +125,6 @@ public class ConsolePlayer extends Player{
 
 
         while (!c.equals("0")){
-            if(Thread.interrupted())
-            {
-                for(int j =0 ;j<temp.size();j++){
-                    Champion.ChampionAttributes CA = temp.get(j).new ChampionAttributes();
-                    if(CA.getPlayer() == -1)
-                        CA.setPlayer(0);
-                }
-                return;
-            }
             System.out.println("1 : To Buy A Champion");
             System.out.println("2 : To Sell A Champion");
             System.out.println("3 : To Select A Champion From Arena");
@@ -191,24 +180,19 @@ public class ConsolePlayer extends Player{
                 case "4":
                     System.out.println("To Add New Champion To Arena");
                     cc=scanner.nextInt();
-                    if(cc<0 || cc>=currentChampionInBench.size() || currentChampionInBench.size()==0 || numSwaps>=limitSwaps)
-                    {
-                        System.out.println("not completed");
-                        break;
-                    }
-                    System.out.println("Enter x & y corinates:");
-                    int x = scanner.nextInt();
-                    int y = scanner.nextInt();
-                    x=Math.min(Math.max(x,1),Option.getObject().getWidth());
-                    y=Math.min(Math.max(y,1),Option.getObject().getHigth());
-                    if(Arena.map[x-1][y-1].getType() == SquareType.Terrain)
+                    if(cc<0 || cc>currentChampionInBench.size() || currentChampionInBench.size()==0 || numSwaps>=limitSwaps)
                     {
                         System.out.println("not completed");
                         break;
                     }
                     this.currentChampionInArena.add(this.currentChampionInBench.get(cc));
+                    System.out.println("Enter x & y corinates:");
+                    int x = scanner.nextInt();
+                    int y = scanner.nextInt();
+                    x=Math.min(Math.max(x,1),Option.getObject().getWidth());
+                    y=Math.min(Math.max(y,1),Option.getObject().getHigth());
                     arena.add(this.currentChampionInBench.get(cc));
-                    this.currentChampionInBench.get(cc).new ChampionAttributes().setSquare(Arena.map[x-1][y-1]);
+                    this.currentChampionInBench.get(cc).new ChampionAttributes().setSquare(new Square(x,y));
                     this.currentChampionInBench.remove(cc);
                     this.championInBench--;
                     this.championInArena++;
@@ -229,17 +213,14 @@ public class ConsolePlayer extends Player{
         System.out.println("*************************************************************************************");
     }
 
-
     @Override
     public void start(ArrayList<Champion> arena, ArrayList<Champion> temp){
-        removeDeadChampion(arena);
        // printArena();
         printPlayerInfo();
         printChampionInArena();
         printChampionInBench();
         buildTempStore(temp);
         GetOrder(arena,temp);
-      //  notifyAll();
     }
 
 
@@ -263,10 +244,9 @@ public class ConsolePlayer extends Player{
             System.out.println();
         }
     }
-    private void printArray(ArrayList<Champion>champions) {
-        for (int i = 0; i < champions.size(); i++) {
-            System.out.println(i + " : " + champions.get(i));
+    private void printArray(ArrayList<Champion>champions){
+        for(int i=0;i<champions.size();i++){
+            System.out.println(i + " : "+champions.get(i));
         }
     }
-
 }

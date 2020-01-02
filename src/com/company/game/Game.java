@@ -7,6 +7,7 @@ import com.company.Player.ConsolePlayer;
 import com.company.Player.GUIPlayer;
 import com.company.Player.Player;
 import com.company.champion.Champion;
+import com.company.main.Img;
 import com.company.move.BasicAttackMove;
 import com.company.move.MoveFactory;
 import com.company.move.WalkMove;
@@ -25,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -49,7 +51,7 @@ public class Game {
     public class Controller {
         Player player;
         ArrayList<Round> rounds;
-        String[] images = new String[50];
+        String[] images = new String[55];
         VBox tiers, bottom;
         Pane bench, temporalStore;
         VBox next;
@@ -66,6 +68,7 @@ public class Game {
         int numOfPlaningRound = 0;
         int numOfRound = 0;
         boolean end = false;
+        int counter1 = 0, counter2 = 0;
 
         public Controller(ArrayList<Round> rounds) {
             this.player = currentPlayer.get(0);
@@ -125,6 +128,10 @@ public class Game {
             images[46] = "Photos\\Swain.png";
             images[47] = "Photos\\Veigar.png";
             images[48] = "Photos\\avian.png";
+
+            images[49] = "Photos\\grass.png";
+            images[50] = "Photos/7-2-water-png-clipart.png";
+            images[51] = "Photos/hill-576592_960_720.png";
         }
 
         void init() {
@@ -140,6 +147,8 @@ public class Game {
                 posXToTemp[i] = 0;
             }
             player.setNumSwaps(0);
+            counter1 = 0;
+            counter2 = 0;
         }
 
         public void setTiers() {
@@ -169,7 +178,7 @@ public class Game {
             Integer c = 0;
             while (posXToBench[c] != 0)
                 c++;
-            imagesInBench.get(j).setPosition(c * 100 + 150, 5);
+            imagesInBench.get(j).setPosition(c * 100 + 250, 5);
 
             imagesInBench.get(j).addItemToContextMenu("Swap to");
             imagesInBench.get(j).setContextMenu();
@@ -294,7 +303,7 @@ public class Game {
             Integer c = 0;
             while (posXToTemp[c] != 0)
                 c++;
-            imagesInTemporalStore.get(j).setPosition(c * 100 + 150, 5);
+            imagesInTemporalStore.get(j).setPosition(c * 100 + 250, 5);
 
             imagesInTemporalStore.get(j).addItemToContextMenu("Buy");
             imagesInTemporalStore.get(j).setContextMenu();
@@ -499,7 +508,7 @@ public class Game {
                         field2.setPromptText("Only integer");
                         Button button = new Button("Submit");
                         Button cancelButton = new Button("Cancel");
-                        cancelButton.setOnAction(e -> tiers.getChildren().removeAll(label1, field1, button, cancelButton));
+                        cancelButton.setOnAction(e -> tiers.getChildren().removeAll(label1, field1, label2, field2, button, cancelButton));
                         tiers.getChildren().addAll(label1, field1, label2, field2, button, cancelButton);
                         field1.requestFocus();
                         button.setOnAction(new EventHandler<ActionEvent>() {
@@ -689,23 +698,28 @@ public class Game {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-            file = new File("autoPlayer1.txt");
-            try {
-                PrintWriter writer = new PrintWriter(file);
-                writer.print("");
-                writer.close();
+            String autoPlayerfile = "autoPlayer";
+            int j = 1;
+            for (int i = playersCounter + 1; i < numOfPlayers + numOfBots; i++) {
+                file = new File(autoPlayerfile + j + ".txt");
+                j++;
+                try {
+                    PrintWriter writer = new PrintWriter(file);
+                    writer.print("");
+                    writer.close();
 
-                FileOutputStream f = new FileOutputStream(file);
-                ObjectOutputStream o = new ObjectOutputStream(f);
-                for (int i = playersCounter + 1; i < numOfPlayers + numOfBots; i++) {
+                    FileOutputStream f = new FileOutputStream(file);
+                    ObjectOutputStream o = new ObjectOutputStream(f);
+
                     p = currentPlayer.get(i);
                     // Write objects to file
                     o.writeObject(p);
+
+                    o.close();
+                    f.close();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
-                o.close();
-                f.close();
-            } catch (Exception e1) {
-                e1.printStackTrace();
             }
 
             file = new File("store.txt");
@@ -787,6 +801,15 @@ public class Game {
             setBattleField();
             setBottom();
 
+            Img grass = new Img(images[49]);
+            battleField.getChildren().addAll(grass.getImage());
+            Img water = new Img(images[50]);
+            water.setImagePos(50, 50);
+            battleField.getChildren().addAll(water.getImage());
+            Img teran = new Img(images[51]);
+            teran.setImagePos(100, 100);
+            battleField.getChildren().addAll(teran.getImage());
+
             // BorderPane layout = new BorderPane();
             layout.setLeft(tiers);
             layout.setCenter(battleField);
@@ -867,9 +890,11 @@ public class Game {
             currentPlayer.add(p);
 
         }
-
+        String autoPlayerfile = "autoPlayer";
+        int j = 1;
         for (int i = 0; i < numOfBots; i++) {
-            File file = new File("autoPlayer1.txt");
+            File file = new File(autoPlayerfile + j + ".txt");
+            j++;
             Player p = null;
             if (file.length() == 0) {
                 try {
@@ -936,9 +961,9 @@ public class Game {
         public void generateList() {
             for (int i = 0; i < Option.getObject().getNumberOfRound(); i++) {
                 if (i % 2 == 0)
-                    rounds.add(new Planning(Game.this.arena.getChampionsInArena(),Game.this.arena.getMap()));
+                    rounds.add(new Planning(Game.this.arena.getChampionsInArena()));
                 else
-                    rounds.add(new ExcuteMove(Game.this.arena.getChampionsInArena(),Game.this.arena.getMap()));
+                    rounds.add(new ExcuteMove(Game.this.arena.getChampionsInArena()));
             }
         }
 
@@ -972,19 +997,12 @@ public class Game {
                         System.out.println(victoryPlayer.getCurrentChampionInArena().get(j));
                     break;
                 }
-//                if(counter == 0){
-//                    System.out.println();
-//                    System.out.println("|--------------------------|");
-//                    System.out.println("|   No  Player victory     |");
-//                    System.out.println("|--------------------------|");
-//                    break;
-//                }
             }
         }
 
         @Override
         public void RunTurnGUI() throws Exception {
-            if ((new TemporalStoreFilter(new ChampionClassFilter(new StoreFilter()))).GetChampionList() != null) {
+            //if ((new TemporalStoreFilter(new ChampionClassFilter(new StoreFilter()))).GetChampionList() != null) {
                 currentPlayer.get(0).addCoin(Option.getObject().getCoinePerRound());
                 currentPlayer.get(0).setCurrentChampionsInTemporalStore((new TemporalStoreFilter
                         (new ChampionClassFilter(
@@ -993,7 +1011,7 @@ public class Game {
                 Controller controller = new Controller(rounds);
                 controller.setImages();
                 controller.start();
-            }
+            //}
         }
     }
 

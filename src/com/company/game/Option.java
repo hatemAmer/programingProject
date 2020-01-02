@@ -31,7 +31,7 @@ public  class Option {
        // startPlayConfig.getString("")
         this.coinPerRound = 2;
         this.numberOfRound = 200;
-        this.numberOfBots = 1;
+        this.numberOfBots = 2;
         this.numberOfPlayers = 1;
         this.numberOfCopiesInStore = 1;
         this.numberOfChampionInTemp = 5;

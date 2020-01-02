@@ -7,7 +7,6 @@ package com.company.champion;
  */
 
 import com.company.damageCulcolator.DamageCalculator;
-import com.company.game.SquareType;
 import com.company.move.Move;
 import com.company.game.Square;
 import com.company.champion.ChampionClass;
@@ -16,11 +15,9 @@ import com.company.game.Square;
 import com.company.move.Move;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Champion implements Serializable {
-    private int numberOfMoves;
-    private ArrayList<Move> moves = new ArrayList<Move>();
+    private Move moves;
     private ChampionClass ActiveClasses[] = new ChampionClass[3];
     private DamageCalculator currentDamageCalculator;
     private int player;// 0 1 2 3 4 5 6 7 8
@@ -45,7 +42,6 @@ public class Champion implements Serializable {
         this.squar = new Square(1, 1);
         this.squar.setX(-1);
         this.squar.setY(-1);
-        this.squar.setType(SquareType.Standard);
         this.level = 1;
         this.player = 0;
     }
@@ -76,7 +72,6 @@ public class Champion implements Serializable {
         this.ActiveClasses[1] = x2;
         this.ActiveClasses[2] = x3;
         this.championNumber = id;
-        this.numberOfMoves = 0;
     }
 
 
@@ -242,15 +237,12 @@ public class Champion implements Serializable {
             return Champion.this.player;
         }
 
-        public ArrayList<Move> getMoves() {
+        public Move getMoves() {
             return moves;
         }
 
         public void setMoves(Move moves) {
-            if(Champion.this.moves.size() > 3){
-                Champion.this.moves.remove(0);
-            }
-            Champion.this.moves.add(moves);
+            Champion.this.moves = moves;
         }
 
         public int getChampionNumber() {
@@ -277,13 +269,6 @@ public class Champion implements Serializable {
             return MaxHealth;
         }
 
-        public int getNumberOfMoves() {
-            return numberOfMoves;
-        }
-
-        public void setNumberOfMoves(int numberOfMoves) {
-            Champion.this.numberOfMoves = numberOfMoves;
-        }
     }
 
     public void AcceptDamage(){
@@ -311,5 +296,4 @@ public class Champion implements Serializable {
         + "Movment SP:"+this.MovementSpeed);
 
     }
-
 }
